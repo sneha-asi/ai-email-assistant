@@ -72,8 +72,13 @@ const AppInbox = () => {
     setActing(true);
     try {
       const res = await act(selected, analysis.suggested_action.type, draft);
-      toast.success(res.message);
-      setDone(true);
+      if (res.status === "error") {
+        toast.error("Action failed", { description: res.message });
+      } else {
+        if (res.simulated) toast.info("Simulated — demo mode", { description: res.message });
+        else toast.success(res.message);
+        setDone(true);
+      }
     } catch {
       toast.error("Action failed");
     }

@@ -65,7 +65,7 @@ export async function act(
   email: Email,
   action: string,
   draft?: string,
-): Promise<{ status: string; message: string; performed: boolean }> {
+): Promise<{ status: string; message: string; performed: boolean; simulated?: boolean }> {
   const r = await fetch(`${BASE}/api/act`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

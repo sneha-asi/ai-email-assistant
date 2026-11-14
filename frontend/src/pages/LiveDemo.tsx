@@ -55,6 +55,7 @@ const LiveDemo = () => {
   const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null);
   const [engineUsed, setEngineUsed] = useState("");
   const [actResult, setActResult] = useState<string | null>(null);
+  const [actSimulated, setActSimulated] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -108,6 +109,7 @@ const LiveDemo = () => {
       setStep("act", "running");
       const a = await act(picked, res.analysis.suggested_action.type, res.analysis.draft_reply);
       setActResult(a.message);
+      setActSimulated(Boolean(a.simulated));
       setStep("act", "done");
     } catch {
       setConnError("The pipeline hit an error mid-run. Is the backend running on port 8000?");
@@ -283,7 +285,8 @@ const LiveDemo = () => {
               <Card className="border-green-500/40 bg-green-500/5">
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-500" /> Acted
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />{" "}
+                    {actSimulated ? "Acted (simulated — demo mode)" : "Acted"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm text-foreground/90">

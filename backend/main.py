@@ -86,22 +86,25 @@ def act(req: ActRequest):
         try:
             draft_id = gmail_provider.create_draft(to, subject, req.draft)
             return {"status": "done", "message": f"Draft created in Gmail (id {draft_id}).",
-                    "performed": True}
+                    "performed": True, "simulated": False}
         except gmail_provider.GmailUnavailable as exc:
-            return {"status": "error", "message": str(exc), "performed": False}
+            return {"status": "error", "message": str(exc), "performed": False,
+                    "simulated": False}
 
-    # Demo mode (or non-email actions): simulate the action so the flow completes.
+    # Demo mode (or non-email actions): nothing is executed, so say so explicitly.
     labels = {
-        "reply": f"Draft reply to {to} prepared.",
-        "forward": f"Draft forward of \"{subject}\" prepared.",
-        "schedule_meeting": "Calendar hold drafted — ready to send the invite.",
-        "create_task": "Task created in your tracker.",
-        "approve_request": "Approval recorded.",
-        "archive": "Email archived.",
-        "escalate": "Escalated to the right owner.",
+        "reply": f"draft a reply to {to}",
+        "forward": f"draft a forward of \"{subject}\"",
+        "schedule_meeting": "draft a calendar hold",
+        "create_task": "create a task in your tracker",
+        "approve_request": "record the approval",
+        "archive": "archive the email",
+        "escalate": "escalate to the right owner",
     }
+    what = labels.get(req.action, "queue the action")
     return {
         "status": "done",
-        "message": labels.get(req.action, "Action queued."),
-        "performed": False,  # simulated in demo mode
+        "message": f"Simulated: would {what}. Nothing was sent or changed (demo mode).",
+        "performed": False,
+        "simulated": True,
     }

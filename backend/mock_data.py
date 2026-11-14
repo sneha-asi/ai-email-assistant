@@ -23,7 +23,7 @@ MOCK_INBOX = [
         "received": "2026-06-21 08:02",
         "unread": True,
         "body": (
-            "Hey Sneha — really enjoyed our chat at the conference. Could we grab 30 minutes "
+            "Hey Alex — really enjoyed our chat at the conference. Could we grab 30 minutes "
             "next Tuesday or Wednesday to talk through how a Northwind x your-team integration "
             "might work? Mornings are best for me. Here's my calendar: https://cal.northwind.io/daniel"
         ),
@@ -57,7 +57,7 @@ MOCK_INBOX = [
         "received": "2026-06-21 07:48",
         "unread": True,
         "body": (
-            "Sneha — the Q2 revenue figure on slide 7 is stale. Please update it to $842K and "
+            "Alex — the Q2 revenue figure on slide 7 is stale. Please update it to $842K and "
             "re-send the deck before the 2pm board call today. Let me know once it's done."
         ),
     },

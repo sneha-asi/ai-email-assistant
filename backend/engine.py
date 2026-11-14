@@ -21,6 +21,9 @@ from pydantic import BaseModel, Field
 # for cheaper/faster classification).
 MODEL = os.getenv("AIEA_MODEL", "claude-opus-4-8")
 
+# Name used to sign heuristic draft replies; override with AIEA_SIGN_OFF.
+DEFAULT_SIGN_OFF = "[Your name]"
+
 Category = Literal[
     "meeting_request",
     "customer_support",
@@ -170,7 +173,8 @@ def analyze_heuristic(email: dict) -> EmailAnalysis:
         draft = "No reply needed — this is a promotional email."
     else:
         draft = (f"Hi {name},\n\nThanks for your email regarding \"{subject}\". "
-                 f"I've reviewed it and will follow up shortly.\n\nBest,\nSneha")
+                 f"I've reviewed it and will follow up shortly.\n\nBest,\n"
+                 f"{os.getenv('AIEA_SIGN_OFF', DEFAULT_SIGN_OFF)}")
 
     return EmailAnalysis(
         summary=(subject or body[:80] or "Email").strip(),
